@@ -15,22 +15,33 @@ import AdminProfile from './pages/adminDashboard/AdminProfile';
 import SignUp from './pages/signUp/SignUp';
 import AdminData from './pages/adminDashboard/AdminData';
 import Navbar from './components/navbar/Navbar';
+import { Provider } from 'react-redux';
+import { Store } from './Redux/Store';
+import { ToastContainer, toast } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+      <Provider store={Store}>
+      <Toaster />
+
       <BrowserRouter>
-      <Navbar/>
+
+        <Navbar />
         <Routes>
           <Route path='/' element={<LandingPage />} />
           <Route path='/signIn' element={<SignIn />} />
           <Route path='/signUp' element={<SignUp />} />
 
-          <Route path='/admin-dashboard' element={<AdminDashboard userRole={'admin'} allowedRoles={['admin','visitor']} />}>
+          <Route path='/admin-dashboard/' element={<AdminDashboard userRole={'admin'} allowedRoles={['admin', 'visitor']} />}>
 
-            <Route index path='' element={<AdminProfile />} />
-            <Route index path='admin-data' element={<AdminData />} />
+            <Route path='' element={<AdminProfile />} />
+            <Route path='admin-data' element={<AdminData />} />
+            <Route path='*' element={<h4>NOTHING IN admin-dashboard</h4>} />
+
+
 
           </Route>
 
@@ -51,11 +62,13 @@ function App() {
           userRole={'creator'}
         /> */}
           <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path='/*' element={<h4>NOTHING</h4>} />
 
         </Routes>
 
 
       </BrowserRouter>
+      </Provider>
     </>
   )
 }
